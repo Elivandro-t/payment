@@ -13,8 +13,7 @@ COPY . .
 RUN mvn clean package
 
 # Estágio de produção
-FROM openjdk:17-jdk-slim
-
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /payments
 
 COPY --from=build /payments/target/payments-0.0.1-SNAPSHOT.jar payments.jar
