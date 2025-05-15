@@ -19,4 +19,4 @@ WORKDIR /payments
 
 COPY --from=build /payments/target/payments-0.0.1-SNAPSHOT.jar payments.jar
 ENV DATA_DIR=/var/lib/data
-CMD ["java", "-jar", "dr7.jar"]
+CMD ["java", "-jar", "payments.jar"]
