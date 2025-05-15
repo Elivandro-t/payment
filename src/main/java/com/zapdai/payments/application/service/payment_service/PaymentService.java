@@ -42,7 +42,7 @@ public class PaymentService {
                     .paymentMethodId(request.getPaymentMethodId())
                     .statementDescriptor("zapdai")
                     .additionalInfo(paymentAdditionalInfoRequest(request))
-                    .notificationUrl("https://zapdai-zmo0.onrender.com/process_payment/webhook/mercadopago")
+                    .notificationUrl("https://orderpayment.zapdai.com/process_payment/webhook/mercadopago")
                     .externalReference("pedido-" + UUID.randomUUID())
                     .payer(PaymentPayerRequest.builder()
                             .email(request.getPayer().getEmail()) // Email do pagador
