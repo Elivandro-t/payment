@@ -33,6 +33,8 @@ public class PaymentService {
                     .customHeaders(customHeaders)
                     .build();
             PaymentClient paymentClient = new PaymentClient();
+            System.out.println("meu nome "+request.getPayer().getFirst_name());
+            System.out.println("meu sobre "+request.getPayer().getLast_name());
             PaymentCreateRequest paymentCreateRequest = PaymentCreateRequest.builder()
                     .transactionAmount(request.getTransactionAmount())
                     .issuerId(request.getIssuerId())// Valor da transação
@@ -42,12 +44,13 @@ public class PaymentService {
                     .paymentMethodId(request.getPaymentMethodId())
                     .statementDescriptor("zapdai")
                     .additionalInfo(paymentAdditionalInfoRequest(request))
-                    .notificationUrl("https://orderpayment.zapdai.com/process_payment/webhook/mercadopago")
+                    .notificationUrl("http://server.zapdai.com/process_payment/webhook/mercadopago")
                     .externalReference("pedido-" + UUID.randomUUID())
                     .payer(PaymentPayerRequest.builder()
                             .email(request.getPayer().getEmail()) // Email do pagador
                             .firstName(request.getPayer().getFirst_name()) // Nome do pagador
                             .lastName(request.getPayer().getLast_name())
+
                             .identification(
                                     IdentificationRequest.builder()
                                             .type(request.getPayer().getIdentification().getType()) // Tipo de identificação (CPF, CNPJ)
@@ -96,9 +99,8 @@ public class PaymentService {
                 .firstName(card.getPayer().getFirst_name())
                 .lastName(card.getPayer().getLast_name())
                 .build();
-        List<PaymentItemRequest> itemRequests = Optional.ofNullable(card.getItens())
-                .orElse(Collections.emptyList())
-                .stream()
+        System.out.println("meus intens " +card.getItens().get(0).getDescription());
+        List<PaymentItemRequest> items = card.getItens().stream()
                 .map(item -> PaymentItemRequest.builder()
                         .id(item.getId())
                         .title(item.getTitle())
@@ -106,10 +108,10 @@ public class PaymentService {
                         .quantity(item.getQuantity())
                         .unitPrice(item.getPrice())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
 
         return PaymentAdditionalInfoRequest.builder()
-                .items(itemRequests)
+                .items(items)
                 .payer(payer)
                 .build();
     }
