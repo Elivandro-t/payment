@@ -11,11 +11,7 @@ import com.mercadopago.core.MPRequestOptions;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import java.util.*;
-import java.util.stream.Collectors;
-
 @Service
 public class PaymentService {
 
@@ -32,6 +28,9 @@ public class PaymentService {
             MPRequestOptions requestOptions = MPRequestOptions.builder()
                     .customHeaders(customHeaders)
                     .build();
+            if(request.getItens()==null){
+                throw new RuntimeException("Informar itens da lista!");
+            }
             PaymentClient paymentClient = new PaymentClient();
             System.out.println("meu nome "+request.getPayer().getFirst_name());
             System.out.println("meu sobre "+request.getPayer().getLast_name());
@@ -44,8 +43,8 @@ public class PaymentService {
                     .paymentMethodId(request.getPaymentMethodId())
                     .statementDescriptor("zapdai")
                     .additionalInfo(paymentAdditionalInfoRequest(request))
-                    .notificationUrl("http://server.zapdai.com/process_payment/webhook/mercadopago")
-                    .externalReference("pedido-" + UUID.randomUUID())
+                    .notificationUrl("https://server.zapdai.com/process_payment/webhook/mercadopago")
+                    .externalReference(request.getPayer().getEmail())
                     .payer(PaymentPayerRequest.builder()
                             .email(request.getPayer().getEmail()) // Email do pagador
                             .firstName(request.getPayer().getFirst_name()) // Nome do pagador
@@ -99,7 +98,6 @@ public class PaymentService {
                 .firstName(card.getPayer().getFirst_name())
                 .lastName(card.getPayer().getLast_name())
                 .build();
-        System.out.println("meus intens " +card.getItens().get(0).getDescription());
         List<PaymentItemRequest> items = card.getItens().stream()
                 .map(item -> PaymentItemRequest.builder()
                         .id(item.getId())

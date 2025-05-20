@@ -1,8 +1,9 @@
 package com.zapdai.payments.domain.vo;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 public class PayerDTO {
     private long id;
     @NotBlank

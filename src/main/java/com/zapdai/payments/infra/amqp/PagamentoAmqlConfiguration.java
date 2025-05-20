@@ -14,15 +14,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PagamentoAmqlConfiguration {
-//
+
 //     @Bean
 //    public Queue pagamentoConcluido(){
 //        return new Queue("pagamento.concluido",false);
 //    }
-//    @Bean
-//    public Queue pagamentoConcluido(){
-//        return QueueBuilder.nonDurable("pagamento.concluido").build();
-//    }
+    @Bean
+    public Queue pagamentoConcluido(){
+        return QueueBuilder.nonDurable("pagamento.concluido").build();
+    }
     @Bean
    public RabbitAdmin criarCabbit(ConnectionFactory connectionFactory){
         return  new RabbitAdmin(connectionFactory);
@@ -43,9 +43,9 @@ public class PagamentoAmqlConfiguration {
        rabbitTemplate.setMessageConverter(converter);
        return rabbitTemplate;
    }
-   @Bean
-   public FanoutExchange fanoutExchange(){
-       return new FanoutExchange("pagamento.ex");
-   }
+//   @Bean
+//   public FanoutExchange fanoutExchange(){
+//       return new FanoutExchange("pagamento.ex");
+//   }
 
 }

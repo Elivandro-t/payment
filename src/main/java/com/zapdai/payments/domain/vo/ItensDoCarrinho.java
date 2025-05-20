@@ -1,7 +1,8 @@
 package com.zapdai.payments.domain.vo;
 
-import java.math.BigDecimal;
+import jakarta.persistence.Embeddable;
 
+import java.math.BigDecimal;
 public class ItensDoCarrinho {
     private String id;
     private String title;
