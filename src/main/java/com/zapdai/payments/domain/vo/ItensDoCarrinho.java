@@ -1,13 +1,17 @@
 package com.zapdai.payments.domain.vo;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 public class ItensDoCarrinho {
     private String id;
+    @NotBlank
     private String title;
-    private String description;
+    @NotNull
     private int quantity;
+    @NotNull
     private BigDecimal price;
 
     public String getId() {
@@ -35,14 +39,6 @@ public class ItensDoCarrinho {
         this.quantity = quantity;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -56,7 +52,6 @@ public class ItensDoCarrinho {
         return "ItensDoCarrinho{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';

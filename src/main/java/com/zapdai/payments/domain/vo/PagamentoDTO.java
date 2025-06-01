@@ -12,14 +12,14 @@ import java.util.List;
     public record PagamentoDTO(
                                StatusPagamento statusPagoPlano,
                                boolean statusPago,
-                               OffsetDateTime dateCreated, String planoId,
+                               String dateCreated, String planoId,
                                String planoName,
-                               long pagamentoIdMercadoPago,
                                String PagamentoRef,
                                String userName,
                                String email,
                                 BigDecimal valorPago,
-                               String formaDePagamento
+                               String formaDePagamento,
+                               String consumerId
     ) {
         public PagamentoDTO(PagamentosEntity pagamento) {
             this(
@@ -28,12 +28,12 @@ import java.util.List;
                     pagamento.getDateCreated(),
                     pagamento.getPlanoId(),
                     pagamento.getPlanoName(),
-                    pagamento.getPagamentoIdMercadoPago(),
                     pagamento.getPagamentoRef(),
                     pagamento.getUserName(),
                     pagamento.getEmail(),
                     pagamento.getValorPago(),
-                    pagamento.getFormaDePagamento()
+                    pagamento.getFormaDePagamento(),
+                    pagamento.getConsumerId()
             );
         }
     }

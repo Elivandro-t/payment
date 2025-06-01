@@ -118,4 +118,5 @@ public class CardPaymentDTO {
     public void setBackUrls(BackUrl backUrls) {
         this.backUrls = backUrls;
     }
+
 }

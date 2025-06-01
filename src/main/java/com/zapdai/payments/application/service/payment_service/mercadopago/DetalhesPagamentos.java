@@ -1,4 +1,4 @@
-package com.zapdai.payments.application.service.payment_service;
+package com.zapdai.payments.application.service.payment_service.mercadopago;
 
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.PreferenceClient;
@@ -17,7 +17,6 @@ public class DetalhesPagamentos {
         try {
             // Configure seu token de acesso
             MercadoPagoConfig.setAccessToken(token);
-
             // Crie o cliente de preferência
             PreferenceClient client = new PreferenceClient();
 

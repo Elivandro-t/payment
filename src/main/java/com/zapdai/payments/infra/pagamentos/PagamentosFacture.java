@@ -23,35 +23,35 @@ public class PagamentosFacture implements PagamentoRepository {
     public PagamentoResponseDTO save(PagamentoDTO pagamentoDTO, String status) {
         List<HistoryPagamento> lista = new ArrayList<>();
         boolean ativo = false;
-        PagamentosEntity resposta = repository.findOneByNameByEmail(pagamentoDTO.pagamentoIdMercadoPago(),pagamentoDTO.PagamentoRef());
+        PagamentosEntity resposta = repository.findOneByNameByConsumer(pagamentoDTO.consumerId());
         if(resposta!=null ){
-            if(resposta.isStatusPago() && resposta.getStatusPagoPlano()==StatusPagamento.PAGO){
+            if(resposta.getStatusPagoPlano()==StatusPagamento.PAGO && resposta.getPlanoId().equals(pagamentoDTO.planoId())){
                 return new PagamentoResponseDTO(resposta);
             }
             StatusPagamento novo;
-            if(status.equals("approved")){
+            if(status.equals("RECEIVED")){
                 ativo = true;
                 novo = StatusPagamento.PAGO;
             } else {
+                ativo = false;
                 novo = valid(status);
             }
 
             HistoryPagamento historyPagamento = new HistoryPagamento(resposta,novo);
             resposta.AtualizaPgamento(pagamentoDTO.dateCreated(),
-                   novo,historyPagamento,ativo);
+                   novo,historyPagamento,ativo,pagamentoDTO);
             var pagamentoAtualizado = repository.save(resposta);
-            System.out.println("Pagemaento Existe e foi atualizado");
             return new PagamentoResponseDTO(pagamentoAtualizado);
         }
        else{
             Pagamentos pagamentos = new Pagamentos(pagamentoDTO,lista);
             PagamentosEntity pg = new PagamentosEntity(pagamentos); HistoryPagamento historyPagamento = new HistoryPagamento(pg,valid(status));
             lista.add(historyPagamento);
-            System.out.println("Pagemaento salvo");
             var pagamento = repository.save(pg);
             return new PagamentoResponseDTO(pagamento);
         }
     }
+
     @Override
     public List<PagamentoResponseDTO> FindAll() {
       var lista =   repository.findAll().stream().map(e->new Pagamentos(e)).toList();
@@ -72,15 +72,17 @@ public class PagamentosFacture implements PagamentoRepository {
     private StatusPagamento valid(String status){
         StatusPagamento statusP;
         switch (status){
-            case "approved":
+            case "RECEIVED":
                 statusP = StatusPagamento.PAGO;
                 break;
-            case "pending":
+            case "PENDING":
                 statusP = StatusPagamento.AGUARDANDO_APROVAÇÃO;
                 break;
-            case "cancelled":
+            case "CANCELED":
                 statusP = StatusPagamento.CANCELADO;
                 break;
+            case  "CONFIRMED":
+                statusP = StatusPagamento.CONFIRMADO_NAO_PAGO;
             default:
                 statusP = StatusPagamento.PROCESSANDO_PAGAMENTO;
         }

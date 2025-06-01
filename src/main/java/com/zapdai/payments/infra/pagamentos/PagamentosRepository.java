@@ -11,8 +11,10 @@ import java.util.Optional;
 @Repository
 public interface PagamentosRepository extends JpaRepository<PagamentosEntity,Long> {
 
-    @Query("SELECT p FROM PagamentosEntity p WHERE p.pagamentoIdMercadoPago=:id and p.PagamentoRef=:ref")
-    PagamentosEntity findOneByNameByEmail(@Param("id") Long id,String ref);
     @Query("SELECT p FROM PagamentosEntity p WHERE p.email=:email and p.statusPagoPlano=:pago")
     PagamentosEntity findOneByEmail(String email, StatusPagamento pago);
+    @Query("SELECT p FROM PagamentosEntity p WHERE p.email=:email")
+    PagamentosEntity findOneByEmailCluster(String email);
+    @Query("SELECT p FROM PagamentosEntity p WHERE p.consumerId=:id")
+    PagamentosEntity findOneByNameByConsumer(String id);
 }

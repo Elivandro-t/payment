@@ -3,6 +3,8 @@ package com.zapdai.payments.infra.pagamentos;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.zapdai.payments.domain.Pagamentos;
 import com.zapdai.payments.domain.vo.ItensDoCarrinho;
+import com.zapdai.payments.domain.vo.PagamentoDTO;
+import com.zapdai.payments.domain.vo.PagamentoResponseDTO;
 import com.zapdai.payments.domain.vo.PayerDTO;
 import jakarta.persistence.*;
 
@@ -10,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pagamentos")
@@ -23,25 +26,28 @@ public class PagamentosEntity {
     @Enumerated(EnumType.STRING)
     private StatusPagamento statusPagoPlano;
     private boolean statusPago;
-    private java.time.OffsetDateTime dateCreated;
+    private String dateCreated;
     private String planoId;
     private String planoName;
-    private long pagamentoIdMercadoPago;
     private String PagamentoRef;
     private String userName;
     private BigDecimal valorPago;
     private String email;
     private LocalDateTime created;
     private String formaDePagamento;
-    @Version
-    private Long version;
+    private String consumerId;
+    private String cardId;
+    private String paymenteId;
+    private String customerID;
+
+//    @Version
+//    private Long version;
 
     public PagamentosEntity(Pagamentos pg) {
         this.dateCreated = pg.getDateCreated();
         this.email = pg.getEmail();
         this.userName = pg.getUserName();
         PagamentoRef = pg.getPagamentoRef();
-        this.pagamentoIdMercadoPago = pg.getPagamentoIdMercadoPago();
         this.planoName = pg.getPlanoName();
         this.planoId = pg.getPlanoId();
         this.statusPago = pg.isStatusPago();
@@ -50,19 +56,34 @@ public class PagamentosEntity {
         this.valorPago = pg.getValorPago();
         this.created = LocalDateTime.now();
         this.formaDePagamento = pg.getFormaDePagamento();
+        this.consumerId = pg.getConsumerId();
+        this.cardId = pg.getCardId();
+        this.planoId = pg.getPlanoId();
+        this.consumerId = pg.getConsumerId();
     }
     public PagamentosEntity(){}
+    public  void pegaConsumer(String consumerId,String carrId,String payentID){
+        this.consumerId = consumerId;
+        this.cardId = carrId;
+        this.paymenteId = payentID;
 
-    public void AtualizaPgamento(java.time.OffsetDateTime data,
+    }
+
+
+    public void AtualizaPgamento(String data,
                                  StatusPagamento status,
-                                 HistoryPagamento novoStatus,boolean ativo
-    ) {
+                                 HistoryPagamento novoStatus, boolean ativo, PagamentoDTO p
+                                 ) {
         this.dateCreated = data;
         this.statusPago = ativo;
         this.statusPagoPlano = status;
         novoStatus.setPagamento(this);
         this.status.add(novoStatus);
-        this.created = LocalDateTime.now();
+        if (!Objects.equals(this.pagamentoId,p.planoId())){
+            this.planoId = p.planoId();
+            this.planoName = p.planoName();
+            this.created = LocalDateTime.now();
+        }
     }
     public long getPagamentoId() {
         return pagamentoId;
@@ -96,13 +117,6 @@ public class PagamentosEntity {
         this.userName = userName;
     }
 
-    public long getPagamentoIdMercadoPago() {
-        return pagamentoIdMercadoPago;
-    }
-
-    public void setPagamentoIdMercadoPago(long pagamentoIdMercadoPago) {
-        this.pagamentoIdMercadoPago = pagamentoIdMercadoPago;
-    }
 
     public String getPagamentoRef() {
         return PagamentoRef;
@@ -128,11 +142,11 @@ public class PagamentosEntity {
         this.planoId = planoId;
     }
 
-    public OffsetDateTime getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(OffsetDateTime dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -172,7 +186,45 @@ public class PagamentosEntity {
         return formaDePagamento;
     }
 
-    public Long getVersion() {
-        return version;
+
+    public String getConsumerId() {
+        return consumerId;
+    }
+
+    public String getPaymenteId() {
+        return paymenteId;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setValorPago(BigDecimal valorPago) {
+        this.valorPago = valorPago;
+    }
+
+
+    public void setPaymenteId(String paymenteId) {
+        this.paymenteId = paymenteId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public void setConsumerId(String consumerId) {
+        this.consumerId = consumerId;
+    }
+
+    public void setFormaDePagamento(String formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public String getCustomerID() {
+        return customerID;
     }
 }

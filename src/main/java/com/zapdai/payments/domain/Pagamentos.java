@@ -10,20 +10,22 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 public class Pagamentos {
-    private long pagamentoId;
+    private String pagamentoId;
     private List<HistoryPagamento> status;
     private StatusPagamento statusPagoPlano;
     private boolean statusPago;
-    private OffsetDateTime dateCreated;
+    private String dateCreated;
     private String planoId;
     private String planoName;
-    private long pagamentoIdMercadoPago;
     private String PagamentoRef;
     private String userName;
     private String email;
     private LocalDateTime dataCreated;
     private BigDecimal valorPago;
     private String formaDePagamento;
+    private String consumerId;
+    private String cardId;
+    private String paymenteId;
 
 
     public Pagamentos(PagamentoDTO pg,List<HistoryPagamento> p) {
@@ -31,7 +33,6 @@ public class Pagamentos {
         this.email = pg.email();
         this.userName = pg.userName();
         this.PagamentoRef = pg.PagamentoRef();
-        this.pagamentoIdMercadoPago = pg.pagamentoIdMercadoPago();
         this.planoName = pg.planoName();
         this.planoId = pg.planoId();
         this.dateCreated = pg.dateCreated();
@@ -40,13 +41,13 @@ public class Pagamentos {
         this.status =p;
         this.valorPago = pg.valorPago();
         this.formaDePagamento = pg.formaDePagamento();
+        this.consumerId = pg.consumerId();
     }
     public Pagamentos(PagamentosEntity pg) {
         this.dataCreated = pg.getDataCreated();
         this.email = pg.getEmail();
         this.userName = pg.getUserName();
         this.PagamentoRef = pg.getPagamentoRef();
-        this.pagamentoIdMercadoPago = pg.getPagamentoIdMercadoPago();
         this.planoName = pg.getPlanoName();
         this.planoId = pg.getPlanoId();
         this.dateCreated = pg.getDateCreated();
@@ -55,14 +56,16 @@ public class Pagamentos {
         this.status = pg.getStatus();
         this.valorPago = pg.getValorPago();
         this.formaDePagamento = pg.getFormaDePagamento();
+        this.cardId = pg.getCardId();
+        this.consumerId = pg.getConsumerId();
     }
    public Pagamentos(){}
 
-    public long getPagamentoId() {
+    public String getPagamentoId() {
         return pagamentoId;
     }
 
-    public void setPagamentoId(long pagamentoId) {
+    public void setPagamentoId(String pagamentoId) {
         this.pagamentoId = pagamentoId;
     }
 
@@ -90,13 +93,7 @@ public class Pagamentos {
         this.userName = userName;
     }
 
-    public long getPagamentoIdMercadoPago() {
-        return pagamentoIdMercadoPago;
-    }
 
-    public void setPagamentoIdMercadoPago(long pagamentoIdMercadoPago) {
-        this.pagamentoIdMercadoPago = pagamentoIdMercadoPago;
-    }
 
     public String getPagamentoRef() {
         return PagamentoRef;
@@ -122,11 +119,11 @@ public class Pagamentos {
         this.planoId = planoId;
     }
 
-    public OffsetDateTime getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(OffsetDateTime dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -156,5 +153,29 @@ public class Pagamentos {
 
     public String getFormaDePagamento() {
         return formaDePagamento;
+    }
+
+    public String getPaymenteId() {
+        return paymenteId;
+    }
+
+    public void setPaymenteId(String paymenteId) {
+        this.paymenteId = paymenteId;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getConsumerId() {
+        return consumerId;
+    }
+
+    public void setConsumerId(String consumerId) {
+        this.consumerId = consumerId;
     }
 }

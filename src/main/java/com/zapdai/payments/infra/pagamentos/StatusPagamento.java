@@ -7,5 +7,6 @@ public enum StatusPagamento {
     AGUARDANDO_APROVAÇÃO,
     CANCELADO,
     PROCESSANDO_PAGAMENTO,
-    PAGO
+    PAGO,
+    CONFIRMADO_NAO_PAGO
 }

@@ -1,4 +1,4 @@
-package com.zapdai.payments.infra.websocket;
+package com.zapdai.payments.infra.websocketconf;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
